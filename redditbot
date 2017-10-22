@@ -1,0 +1,37 @@
+import praw
+import time
+import os
+
+example_list = []
+
+def bot_login():
+    print("Logging in...")
+    reddit = praw.Reddit(client_id ='ndZcPVKzPUPeuQ',
+                     client_secret ='zRsrBHcE2lU3W529wc5J0GCekg0',
+                     username='testbot2233',
+                     password='snoo123',
+                     user_agent='URL shortener')
+    print("Login finished.")
+    return reddit
+
+def run_bot(reddit):
+
+    for comment in reddit.subreddit('test').stream.comments():
+        try:
+            if "https" in comment.body:
+                comment.reply("This link saves lives.")
+                print(comment.body)
+                print("URL with \"https\" found!")
+
+        except praw.exceptions.PRAWException as e:
+            pass
+        
+    print("Sleeping for 10 seconds")
+    time.sleep(10)
+
+
+
+reddit = bot_login()
+
+while True:
+    run_bot(reddit)
